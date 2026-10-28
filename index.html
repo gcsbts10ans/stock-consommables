@@ -44,6 +44,8 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
 .btn{flex:1;border:none;border-radius:14px;font-size:15px;font-weight:600;padding:14px 12px;display:flex;align-items:center;justify-content:center;}
 .btn svg{margin-right:8px;}
 .btn-bleu{background:var(--bleu);color:#fff;box-shadow:0 4px 12px rgba(30,95,173,.25);}
+.btn-vert{background:var(--vert);color:#fff;box-shadow:0 4px 12px rgba(22,163,74,.25);}
+.adm-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--bord);background:#fff;display:flex;align-items:center;justify-content:center;flex:none;}
 .btn-gris{background:var(--carte);color:var(--txt);box-shadow:var(--ombre);}
 .btn:active{transform:scale(.98);}
 
@@ -104,6 +106,86 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
 
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 20px;border-radius:14px;display:none;font-size:15px;font-weight:500;z-index:30;box-shadow:0 8px 24px rgba(0,0,0,.2);white-space:nowrap;}
 .vue{display:none;} .vue.on{display:block;}
+
+/* ===== Inventaire (logique tablette lessiviel) ===== */
+#invBanner{display:flex;align-items:center;padding:12px 16px;font-size:14px;font-weight:600;}
+#invBanner.hidden{display:none;}
+#invBanner .ic{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex:none;margin-right:12px;}
+#invBanner .ic svg{width:20px;height:20px;}
+#invBanner .txt{flex:1;line-height:1.3;}
+#invBanner .txt b{display:block;font-size:15px;font-weight:800;}
+#invBanner button{border:none;border-radius:11px;padding:11px 14px;font-family:inherit;font-size:14px;font-weight:800;margin-left:10px;}
+#invBanner.due{background:#FFF7ED;color:#7c4a06;border-bottom:1px solid #FCD9A8;}
+#invBanner.due .ic{background:#B45309;color:#fff;}
+#invBanner.due button{background:#B45309;color:#fff;animation:invSoft 1.6s infinite;}
+@keyframes invSoft{0%,100%{box-shadow:0 0 0 0 rgba(245,158,11,.45);}50%{box-shadow:0 0 0 7px rgba(245,158,11,0);}}
+#invBanner.done{background:#ECFDF3;color:#15803D;border-bottom:1px solid #BBF7D0;}
+#invBanner.done .ic{background:#16a34a;color:#fff;}
+.btn-inv{position:relative;}
+.btn-inv .pip{display:none;}
+.btn-inv.due{background:#F59E0B;color:#3a2400;box-shadow:0 4px 12px rgba(245,158,11,.35);}
+.btn-inv.due svg{stroke:#3a2400;}
+.btn-inv.due .pip{display:block;position:absolute;top:-5px;right:-5px;width:14px;height:14px;border-radius:50%;background:#DC2626;border:2px solid #fff;animation:invPip 1.1s infinite;}
+@keyframes invPip{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.35);opacity:.6;}}
+
+#invFlow{position:fixed;top:0;left:0;right:0;bottom:0;z-index:300;background:linear-gradient(160deg,#0E2A4E,#13345E 55%,#1E3A5F);color:#fff;display:none;flex-direction:column;}
+#invFlow.on{display:flex;}
+.if-top{padding:16px 18px;display:flex;align-items:center;justify-content:space-between;}
+.if-kick{font-size:13px;letter-spacing:3px;text-transform:uppercase;opacity:.7;font-weight:700;}
+.if-btns{display:flex;}
+.if-snd,.if-close{background:rgba(255,255,255,.12);border:none;color:#fff;height:42px;border-radius:12px;font-family:inherit;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.if-snd{padding:0 14px;font-size:13px;margin-right:10px;} .if-snd svg{margin-right:6px;}
+.if-close{width:42px;font-size:24px;}
+.if-prog{height:5px;background:rgba(255,255,255,.15);margin:0 18px;border-radius:3px;overflow:hidden;}
+.if-prog > i{display:block;height:100%;background:#5BA8FF;width:0;transition:width .4s ease;}
+.if-main{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;overflow-y:auto;}
+.if-step{font-size:14px;letter-spacing:1px;opacity:.7;margin-bottom:12px;text-transform:uppercase;font-weight:700;}
+.if-name{font-size:32px;font-weight:800;line-height:1.1;margin-bottom:6px;}
+.if-psub{font-size:15px;opacity:.75;margin-bottom:24px;}
+.if-sys{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:12px 22px;margin-bottom:22px;}
+.if-sys b{font-size:28px;} .if-sys span{font-size:12px;opacity:.7;display:block;letter-spacing:1px;text-transform:uppercase;}
+.if-counter{display:flex;align-items:center;margin-bottom:6px;}
+.if-cbtn{width:72px;height:72px;border-radius:20px;border:none;font-size:38px;font-weight:700;font-family:inherit;color:#fff;background:rgba(255,255,255,.14);}
+.if-cbtn:active{transform:scale(.95);}
+.if-cval{font-size:64px;font-weight:800;min-width:120px;margin:0 18px;}
+.if-delta{font-size:15px;font-weight:700;height:22px;margin-bottom:22px;}
+.if-delta.up{color:#7CF2A8;} .if-delta.down{color:#FFB4A8;} .if-delta.eq{opacity:.5;}
+.if-nav{display:flex;width:100%;max-width:520px;}
+.if-nav button{flex:1;height:60px;border:none;border-radius:16px;font-family:inherit;font-size:18px;font-weight:700;}
+.if-nav button+button{margin-left:14px;}
+.if-nav .prev{background:rgba(255,255,255,.12);color:#fff;} .if-nav .prev:disabled{opacity:.3;}
+.if-nav .next{background:#5BA8FF;color:#0E2A4E;}
+.if-card{max-width:560px;width:100%;}
+.if-bigic{width:72px;height:72px;border-radius:20px;background:rgba(91,168,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.if-bigic svg{width:36px;height:36px;color:#9CCBFF;}
+.if-title{font-size:26px;font-weight:800;margin-bottom:12px;}
+.if-text{font-size:16px;opacity:.82;line-height:1.5;margin-bottom:26px;}
+.if-start{height:62px;padding:0 34px;border:none;border-radius:16px;background:#5BA8FF;color:#0E2A4E;font-family:inherit;font-size:18px;font-weight:800;}
+.if-syn{width:100%;text-align:left;background:rgba(255,255,255,.06);border-radius:16px;overflow:hidden;margin-bottom:22px;max-height:48vh;overflow-y:auto;}
+.if-srow{display:flex;align-items:center;padding:12px 16px;border-top:1px solid rgba(255,255,255,.08);font-size:15px;}
+.if-srow:first-child{border-top:none;}
+.if-srow .nm{flex:1;font-weight:600;} .if-srow .vv{opacity:.8;margin-right:12px;}
+.if-srow .ec{font-weight:800;width:50px;text-align:right;}
+.if-srow .ec.up{color:#7CF2A8;} .if-srow .ec.down{color:#FFB4A8;} .if-srow .ec.eq{opacity:.4;}
+
+#ovInvHors{position:fixed;top:0;left:0;right:0;bottom:0;z-index:320;background:rgba(15,23,42,.6);display:none;align-items:center;justify-content:center;padding:24px;}
+#ovInvHors.on{display:flex;}
+#invHorsModal{position:relative;background:#fff;border-radius:22px;max-width:440px;width:100%;overflow:hidden;box-shadow:0 14px 44px rgba(0,0,0,.25);}
+#invHorsModal .x{position:absolute;top:14px;right:14px;width:44px;height:44px;border:none;border-radius:50%;background:rgba(255,255,255,.25);color:#fff;font-size:24px;display:flex;align-items:center;justify-content:center;}
+.ih-head{padding:28px 26px 24px;text-align:center;color:#fff;}
+.ih-head.amber{background:#B45309;} .ih-head.green{background:#15803D;}
+.ih-head .ih-ic{width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+.ih-head .ih-ic svg{width:40px;height:40px;stroke:#fff;}
+.ih-head h2{font-size:23px;font-weight:800;line-height:1.2;}
+.ih-body{padding:22px 26px 26px;text-align:center;}
+.ih-body p{font-size:16px;line-height:1.5;color:#334155;margin-bottom:6px;}
+.ih-ok{font-weight:800;color:#15803D;} .ih-miss{font-weight:800;color:#B45309;}
+.ih-today{display:inline-block;margin-top:12px;background:#F1F5F9;color:#475569;font-size:14px;font-weight:700;padding:8px 16px;border-radius:999px;}
+.ih-main{margin-top:20px;width:100%;border:none;border-radius:14px;padding:18px;font-size:18px;font-weight:800;font-family:inherit;color:#fff;}
+.ih-main.green{background:#15803D;} .ih-main.amber{background:#B45309;}
+.ih-sec{margin-top:12px;width:100%;background:none;border:none;color:#94A3B8;font-size:14px;font-weight:600;font-family:inherit;text-decoration:underline;padding:6px;}
+.maq-sim{margin:0 16px 10px;font-size:12px;color:#92400E;text-align:center;}
+.maq-sim button{border:1px solid #FCD9A8;background:#FFF7ED;color:#92400E;border-radius:8px;padding:6px 10px;font-family:inherit;font-size:12px;font-weight:600;}
 </style>
 </head>
 <body>
@@ -116,23 +198,27 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
     <div class="logo" id="logo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></div>
     <div class="t"><h1 id="titre">Petits consommables</h1><div class="s" id="stitre">Stock central — zone expédition</div></div>
     <div class="conn"><i></i>En ligne</div>
+    <button class="adm-btn" id="admBtn" onclick="ouvrirCode()" title="Administration"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A2332" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
   </div>
 </header>
+<div id="invBanner" class="hidden"></div>
+<div id="ovInvHors"><div id="invHorsModal"></div></div>
 
 <!-- STOCK -->
 <div class="vue on" id="vStock">
   <div class="actions">
-    <button class="btn btn-bleu" onclick="ouvrirInv()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Inventaire</button>
-    <button class="btn btn-gris" onclick="ouvrirCode()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A2332" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Administration</button>
+    <button class="btn btn-vert" onclick="ouvrirEnt()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Entrée de stock</button>
+    <button class="btn btn-bleu btn-inv" id="invBtn" onclick="invDemarrer()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Inventaire<span class="pip"></span></button>
   </div>
+  <div class="maq-sim">Maquette : <button onclick="simLundi()" id="simBtn">Simuler un lundi</button></div>
   <div class="liste" id="liste"></div>
 </div>
 
-<!-- INVENTAIRE -->
-<div class="vue inv" id="vInv">
-  <div class="bandeau-info">Saisis la quantité comptée pour chaque article. Les cases laissées vides gardent le stock actuel.</div>
-  <div class="liste" id="listeInv"></div>
-  <div class="actions"><button class="btn btn-bleu" onclick="validerInv()">Valider l'inventaire</button></div>
+<!-- ENTREE DE STOCK -->
+<div class="vue inv" id="vEnt">
+  <div class="bandeau-info">Saisis la quantité reçue pour chaque article livré. Les cases laissées vides ne changent rien.</div>
+  <div class="liste" id="listeEnt"></div>
+  <div class="actions"><button class="btn btn-vert" onclick="validerEnt()">Valider les entrées</button></div>
 </div>
 
 <!-- ADMIN -->
@@ -164,6 +250,18 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
   <button class="btn btn-gris" style="width:100%" onclick="fermer('ovCode')">Annuler</button>
 </div></div>
 
+<div id="invFlow">
+  <div class="if-top">
+    <span class="if-kick">Inventaire</span>
+    <div class="if-btns">
+      <button class="if-snd" id="ifSnd" onclick="invToggleSnd()"></button>
+      <button class="if-close" onclick="invClose()" aria-label="Fermer">&times;</button>
+    </div>
+  </div>
+  <div class="if-prog"><i id="ifBar"></i></div>
+  <div class="if-main" id="ifMain"></div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -172,7 +270,7 @@ window.onerror = function(msg, src, ligne){
   var e = document.getElementById("err");
   if(e){ e.style.display = "block"; e.textContent = "Erreur : " + msg + " (ligne " + ligne + ")"; }
 };
-var APP_VERSION = "3"; /* aligné avec CACHE "stock-conso-v3" dans sw-stock.js */
+var APP_VERSION = "5"; /* aligné avec CACHE "stock-conso-v5" dans sw-stock.js */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function(){
     navigator.serviceWorker.register("sw-stock.js").catch(function(e){ console.error("SW", e); });
@@ -194,8 +292,9 @@ function vue(v){
   var l=document.querySelectorAll('.vue');for(var i=0;i<l.length;i++)l[i].classList.remove('on');$(v).classList.add('on');
   var accueil=v==='vStock';
   $('back').style.display=accueil?'none':'flex';$('logo').style.display=accueil?'flex':'none';
-  $('titre').textContent=v==='vInv'?'Inventaire du lundi':(v==='vAdm'?'Administration':'Petits consommables');
-  $('stitre').textContent=v==='vInv'?'Comptage du stock réel':(v==='vAdm'?'Articles et seuils':'Stock central — zone expédition');
+  var T={vAdm:['Administration','Articles et seuils'],vEnt:['Entrée de stock','Réception d\'une livraison'],vStock:['Petits consommables','Stock central — zone expédition']};
+  $('titre').textContent=T[v][0]; $('stitre').textContent=T[v][1];
+  $('admBtn').style.display=accueil?'flex':'none';
   window.scrollTo(0,0); if(accueil)rendre();
 }
 function fermer(o){$(o).classList.remove('on');}
@@ -209,7 +308,7 @@ function rendre(){
     var sub=e==='bas'?'Sous le seuil ('+a.seuil+')':'Seuil : '+a.seuil;
     h+='<div class="art '+e+'"><div class="info"><div class="nom">'+a.nom+'</div><div class="jauge"><i style="width:'+pct+'%"></i></div><div class="sub">'+sub+'</div></div>'+
        '<div class="stk">'+a.stock+'</div>'+
-       '<div class="mvs"><button class="mv moins" onclick="mv('+a.id+',-1)">'+SVG_MOINS+'</button><button class="mv plus" onclick="mv('+a.id+',1)">'+SVG_PLUS+'</button></div></div>';
+       '<div class="mvs"><button class="mv moins" onclick="mv('+a.id+',-1)">'+SVG_MOINS+'</button></div></div>';
   });
   $('liste').innerHTML=h;
 }
@@ -225,12 +324,142 @@ function maj(){$('mvQ').textContent=qv;var ap=Math.max(0,cur.stock+sens*qv);
 function validerMv(){var avant=cur.stock;cur.stock=Math.max(0,cur.stock+sens*qv);fermer('ovMv');rendre();
   if(avant>=cur.seuil&&cur.stock<cur.seuil)toast('Sous le seuil : alerte mail à Myriam');else toast((sens<0?'Sortie':'Entrée')+' enregistrée');}
 
-function ouvrirInv(){var h='';arts.slice().sort(function(x,y){return x.nom.localeCompare(y.nom);}).forEach(function(a){
-  h+='<div class="art"><div class="info"><div class="nom">'+a.nom+'</div><div class="sub">Stock théorique : '+a.stock+'</div></div><div class="ecart" id="e'+a.id+'"></div><input type="number" inputmode="numeric" id="i'+a.id+'" placeholder="'+a.stock+'" oninput="ec('+a.id+')"></div>';});
-  $('listeInv').innerHTML=h;vue('vInv');}
-function ec(id){var v=$('i'+id).value,e=$('e'+id);if(v===''){e.textContent='';return;}var d=Number(v)-arts[id].stock;e.textContent=(d>0?'+':'')+d;e.style.color=d<0?'#DC2626':(d>0?'#16a34a':'#6B7280');}
-function validerInv(){var n=0;arts.forEach(function(a){var v=$('i'+a.id).value;if(v!==''){a.stock=Number(v);n++;}});vue('vStock');toast('Inventaire validé — récap envoyé à Myriam');}
+function ouvrirEnt(){var h='';arts.slice().sort(function(x,y){return x.nom.localeCompare(y.nom);}).forEach(function(a){
+  h+='<div class="art"><div class="info"><div class="nom">'+a.nom+'</div><div class="sub">Stock actuel : '+a.stock+'</div></div><div class="ecart" id="n'+a.id+'"></div><input type="number" inputmode="numeric" min="0" id="r'+a.id+'" placeholder="0" oninput="nv('+a.id+')"></div>';});
+  $('listeEnt').innerHTML=h;vue('vEnt');}
+function nv(id){var v=$('r'+id).value,e=$('n'+id);if(v===''||Number(v)<=0){e.textContent='';return;}e.textContent='→ '+(arts[id].stock+Number(v));e.style.color='#16a34a';}
+function validerEnt(){var n=0;arts.forEach(function(a){var v=Number($('r'+a.id).value);if(v>0){a.stock+=v;n++;}});
+  if(!n){toast('Aucune quantité saisie');return;} vue('vStock');toast(n+' article(s) mis à jour');}
+/* ===================== INVENTAIRE ======================
+   Repris de la tablette lessiviel : rappel le lundi (bandeau + bouton
+   orange clignotant), bouton toujours disponible, comptage pas à pas
+   guidé à la voix, synthèse puis validation.
+   Maquette : l'état « fait / pas fait » est simulé en mémoire.  */
+var SIM_LUNDI=false, invFaitJour=false, invFaitDernierLundi=false;
+var invItems=[], invCompte=[], invIdx=-1, invSndOn=true;
+var ICON_CLIP='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>';
+var ICON_CHECK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+var ICON_WARN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>';
+var ICON_SON='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
+var ICON_MUET='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>';
 
+function isLundi(){ return SIM_LUNDI || new Date().getDay()===1; }
+function jourNom(){ return ["dimanche","lundi","mardi","mercredi","jeudi","vendredi","samedi"][new Date().getDay()]; }
+function simLundi(){ SIM_LUNDI=!SIM_LUNDI; invFaitJour=false; $('simBtn').textContent=SIM_LUNDI?'Revenir à aujourd\'hui':'Simuler un lundi'; majInvUI(); }
+
+function majInvUI(){
+  var due = isLundi() && !invFaitJour;
+  var btn=$('invBtn'); if(due) btn.classList.add('due'); else btn.classList.remove('due');
+  var ban=$('invBanner');
+  if(due){
+    ban.className='due';
+    ban.innerHTML='<span class="ic">'+ICON_CLIP+'</span><span class="txt"><b>Inventaire du lundi à réaliser</b>Compte les petits consommables aujourd\'hui.</span><button onclick="startInv()">Faire l\'inventaire</button>';
+  } else if(isLundi() && invFaitJour){
+    ban.className='done';
+    ban.innerHTML='<span class="ic">'+ICON_CHECK+'</span><span class="txt"><b>Inventaire réalisé aujourd\'hui</b>Merci, le récap est parti chez Myriam.</span>';
+  } else { ban.className='hidden'; ban.innerHTML=''; }
+}
+
+function say(t){
+  if(!invSndOn || !('speechSynthesis' in window)) return;
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(t); u.lang='fr-FR'; u.rate=.92; u.pitch=1;
+    var vs=speechSynthesis.getVoices();
+    for(var i=0;i<vs.length;i++){ if(/fr/i.test(vs[i].lang)){ u.voice=vs[i]; break; } }
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function majSnd(){ $('ifSnd').innerHTML=(invSndOn?ICON_SON:ICON_MUET)+'Voix'; }
+function invToggleSnd(){ invSndOn=!invSndOn; majSnd(); if(!invSndOn){ try{speechSynthesis.cancel();}catch(e){} } }
+
+/* Bouton Inventaire : le lundi on lance directement ; les autres jours on
+   indique si l'inventaire du dernier lundi a été fait, avec rattrapage. */
+function invDemarrer(){
+  if(isLundi()){ startInv(); return; }
+  ouvrirInvHors(invFaitDernierLundi);
+}
+function ouvrirInvHors(fait){
+  var box=$('invHorsModal');
+  if(fait){
+    box.innerHTML='<button class="x" onclick="closeInvHors()" aria-label="Fermer">&times;</button>'+
+      '<div class="ih-head green"><div class="ih-ic">'+ICON_CHECK+'</div><h2>Inventaire à jour</h2></div>'+
+      '<div class="ih-body"><p>L\'inventaire de <span class="ih-ok">lundi</span> a bien été réalisé.</p>'+
+      '<span class="ih-today">Aujourd\'hui : '+jourNom()+' — pas d\'inventaire prévu</span>'+
+      '<button class="ih-main green" onclick="closeInvHors()">Fermer</button>'+
+      '<button class="ih-sec" onclick="closeInvHors();startInv()">Refaire un inventaire quand même</button></div>';
+  } else {
+    box.innerHTML='<div class="ih-head amber"><div class="ih-ic">'+ICON_WARN+'</div><h2>Inventaire non réalisé</h2></div>'+
+      '<div class="ih-body"><p>L\'inventaire de <span class="ih-miss">lundi</span> n\'a pas été fait.<br>Tu peux le faire maintenant pour te rattraper.</p>'+
+      '<button class="ih-main amber" onclick="closeInvHors();startInv()">Le faire maintenant</button>'+
+      '<button class="ih-sec" onclick="closeInvHors()">Fermer</button></div>';
+  }
+  $('ovInvHors').classList.add('on');
+}
+function closeInvHors(){ $('ovInvHors').classList.remove('on'); }
+
+function startInv(){
+  invItems=arts.slice().sort(function(x,y){return x.nom.localeCompare(y.nom);}).map(function(a){return {id:a.id,nom:a.nom,sys:a.stock};});
+  invCompte=invItems.map(function(it){return it.sys;});
+  invIdx=-1; majSnd();
+  $('invFlow').classList.add('on');
+  invIntro();
+}
+function invClose(){ try{speechSynthesis.cancel();}catch(e){} $('invFlow').classList.remove('on'); }
+function invBar(p){ $('ifBar').style.width=p+'%'; }
+function invIntro(){
+  invBar(0);
+  $('ifMain').innerHTML='<div class="if-card"><div class="if-bigic">'+ICON_CLIP+'</div>'+
+    '<div class="if-title">Inventaire des petits consommables</div>'+
+    '<div class="if-text">Nous allons compter chaque article, l\'un après l\'autre.<br>Le stock enregistré te sera présenté : confirme-le, ou corrige-le selon ton comptage.</div>'+
+    '<button class="if-start" onclick="invGo(0)">Commencer l\'inventaire</button></div>';
+  say("Inventaire des petits consommables. Nous allons procéder au comptage, article par article.");
+}
+function invGo(i){
+  invIdx=i;
+  if(i>=invItems.length) return invSynthese();
+  var it=invItems[i], dernier=(i===invItems.length-1);
+  invBar(Math.round(i/invItems.length*100));
+  $('ifMain').innerHTML='<div class="if-step">Article '+(i+1)+' / '+invItems.length+'</div>'+
+    '<div class="if-name">'+it.nom+'</div><div class="if-psub">Compte les unités présentes</div>'+
+    '<div class="if-sys"><span>Stock enregistré</span><b>'+it.sys+'</b></div>'+
+    '<div class="if-counter"><button class="if-cbtn" onclick="invAdj(-1)">−</button><div class="if-cval" id="ifVal">'+invCompte[i]+'</div><button class="if-cbtn" onclick="invAdj(1)">+</button></div>'+
+    '<div class="if-delta" id="ifDelta"></div>'+
+    '<div class="if-nav"><button class="prev" '+(i===0?'disabled':'')+' onclick="invGo('+(i-1)+')">Précédent</button>'+
+    '<button class="next" onclick="invGo('+(i+1)+')">'+(dernier?'Terminer':'Suivant')+'</button></div>';
+  invMajDelta();
+  say("Article "+(i+1)+" sur "+invItems.length+". "+it.nom+". Stock enregistré : "+it.sys+". Confirme ou corrige.");
+}
+function invAdj(d){ invCompte[invIdx]=Math.max(0,invCompte[invIdx]+d); $('ifVal').textContent=invCompte[invIdx]; invMajDelta(); }
+function invMajDelta(){
+  var d=invCompte[invIdx]-invItems[invIdx].sys, el=$('ifDelta');
+  if(d===0){ el.className='if-delta eq'; el.textContent='conforme au stock enregistré'; }
+  else if(d>0){ el.className='if-delta up'; el.textContent='+'+d+' par rapport au système'; }
+  else { el.className='if-delta down'; el.textContent=d+' par rapport au système'; }
+}
+function invSynthese(){
+  invBar(100);
+  var rows=invItems.map(function(it,i){
+    var d=invCompte[i]-it.sys, cls=d===0?'eq':(d>0?'up':'down'), txt=d===0?'=':(d>0?('+'+d):(''+d));
+    return '<div class="if-srow"><span class="nm">'+it.nom+'</span><span class="vv">'+it.sys+' → '+invCompte[i]+'</span><span class="ec '+cls+'">'+txt+'</span></div>';
+  }).join('');
+  var ec=invItems.filter(function(it,i){return invCompte[i]!==it.sys;}).length;
+  $('ifMain').innerHTML='<div class="if-card"><div class="if-title">Synthèse de l\'inventaire</div>'+
+    '<div class="if-text" style="margin-bottom:16px;">'+(ec?(ec+' écart'+(ec>1?'s':'')+' relevé'+(ec>1?'s':'')):'Aucun écart')+'</div>'+
+    '<div class="if-syn">'+rows+'</div>'+
+    '<div class="if-nav"><button class="prev" onclick="invGo('+(invItems.length-1)+')">Précédent</button><button class="next" onclick="invValider()">Valider l\'inventaire</button></div></div>';
+  say("Comptage terminé. Vérifie la synthèse, puis valide l'inventaire.");
+}
+function invValider(){
+  invItems.forEach(function(it,i){ arts[it.id].stock=invCompte[i]; });
+  invFaitJour=true; invFaitDernierLundi=true;
+  $('ifMain').innerHTML='<div class="if-card"><div class="if-bigic">'+ICON_CHECK+'</div>'+
+    '<div class="if-title">Inventaire validé</div>'+
+    '<div class="if-text">Le comptage est enregistré, les stocks sont mis à jour et le récap part chez Myriam.</div>'+
+    '<button class="if-start" onclick="invClose()">Terminer</button></div>';
+  say("Inventaire validé. Merci.");
+  rendre(); majInvUI();
+}
 function ouvrirCode(){code='';points();var h='';['1','2','3','4','5','6','7','8','9','','0','⌫'].forEach(function(k){h+=k?'<button onclick="tap(\''+k+'\')">'+k+'</button>':'<span></span>';});$('pad').innerHTML=h;$('ovCode').classList.add('on');}
 function points(){var l=$('codeAff').children;for(var i=0;i<4;i++)l[i].className=i<code.length?'on':'';}
 function tap(k){if(k==='⌫')code=code.slice(0,-1);else if(code.length<4)code+=k;points();
@@ -240,6 +469,7 @@ function ouvrirAdm(){var h='';arts.slice().sort(function(x,y){return x.nom.local
   $('listeAdm').innerHTML=h;vue('vAdm');}
 document.getElementById("ver").textContent = "v" + APP_VERSION + " — " + (navigator.userAgent.match(/Chrome\/[0-9]+/) || ["navigateur ?"])[0];
 rendre();
+majInvUI();
 </script>
 </body>
 </html>

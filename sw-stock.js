@@ -1,6 +1,6 @@
 /* Service worker — Stock petits consommables (GCS BTS)
    CACHE doit rester aligné sur APP_VERSION dans index.html. */
-var CACHE = "stock-conso-v3";
+var CACHE = "stock-conso-v5";
 var FICHIERS = ["./", "./index.html", "./manifest.json", "./icon-192.png", "./icon-512.png"];
 
 self.addEventListener("install", function (e) {
