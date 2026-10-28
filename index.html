@@ -107,7 +107,8 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
 </style>
 </head>
 <body>
-<div class="maq">MAQUETTE — données fictives, aucun enregistrement</div>
+<div class="maq">MAQUETTE — données fictives, aucun enregistrement — <b id="ver"></b></div>
+<div id="err" style="display:none;background:#DC2626;color:#fff;font-size:13px;padding:8px 12px;"></div>
 
 <header>
   <div class="hd">
@@ -166,7 +167,12 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
 <div class="toast" id="toast"></div>
 
 <script>
-var APP_VERSION = "2"; /* aligné avec CACHE "stock-conso-v2" dans sw-stock.js */
+/* Diagnostic : affiche toute erreur JS en haut de l'écran */
+window.onerror = function(msg, src, ligne){
+  var e = document.getElementById("err");
+  if(e){ e.style.display = "block"; e.textContent = "Erreur : " + msg + " (ligne " + ligne + ")"; }
+};
+var APP_VERSION = "3"; /* aligné avec CACHE "stock-conso-v3" dans sw-stock.js */
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function(){
     navigator.serviceWorker.register("sw-stock.js").catch(function(e){ console.error("SW", e); });
@@ -232,6 +238,7 @@ function tap(k){if(k==='⌫')code=code.slice(0,-1);else if(code.length<4)code+=k
 function ouvrirAdm(){var h='';arts.slice().sort(function(x,y){return x.nom.localeCompare(y.nom);}).forEach(function(a){
   h+='<div class="art"><div class="info"><div class="nom">'+a.nom+'</div><div class="sub">Stock : '+a.stock+'</div></div><div><div class="lbl">Seuil</div><input type="number" inputmode="numeric" value="'+a.seuil+'" onchange="arts['+a.id+'].seuil=Number(this.value)||0"></div><button class="suppr" onclick="toast(\'Suppression avec confirmation (maquette)\')">'+SVG_SUPPR+'</button></div>';});
   $('listeAdm').innerHTML=h;vue('vAdm');}
+document.getElementById("ver").textContent = "v" + APP_VERSION + " — " + (navigator.userAgent.match(/Chrome\/[0-9]+/) || ["navigateur ?"])[0];
 rendre();
 </script>
 </body>
