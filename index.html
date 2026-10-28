@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Maquette — Stock petits consommables</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bleu:#1E5FAD;--vert:#16a34a;--rouge:#DC2626;--orange:#D97706;--fond:#F3F5F8;--carte:#fff;--txt:#1A2332;--muted:#6B7280;--bord:#E2E6EC;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'DM Sans',Arial,sans-serif;background:var(--fond);color:var(--txt);font-size:17px;}
+.maq{background:#FEF3C7;color:#92400E;font-size:13px;text-align:center;padding:4px;}
+header{background:var(--bleu);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+header h1{font-size:19px;font-weight:700;}
+.conn{font-size:13px;display:flex;align-items:center;gap:6px;}
+.conn i{width:10px;height:10px;border-radius:50%;background:#30d158;display:inline-block;}
+.alerte{background:#FEE2E2;color:var(--rouge);padding:10px 16px;font-weight:500;font-size:15px;}
+.actions{display:flex;gap:10px;padding:12px 16px;}
+.actions button{flex:1;}
+.btn{border:none;border-radius:12px;font-family:inherit;font-size:16px;font-weight:700;padding:14px;cursor:pointer;}
+.btn-bleu{background:var(--bleu);color:#fff;}
+.btn-gris{background:#fff;color:var(--txt);border:1px solid var(--bord);}
+.liste{padding:0 16px 16px;}
+.art{background:var(--carte);border:1px solid var(--bord);border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.art .nom{flex:1;font-weight:500;}
+.art .nom small{display:block;color:var(--muted);font-weight:400;font-size:13px;}
+.stk{font-size:22px;font-weight:700;min-width:48px;text-align:right;}
+.bas .stk{color:var(--rouge);}
+.mv{width:52px;height:52px;border-radius:12px;border:none;font-size:28px;font-weight:700;color:#fff;cursor:pointer;}
+.moins{background:var(--rouge);} .plus{background:var(--vert);}
+.ov{position:fixed;inset:0;background:rgba(26,35,50,.55);display:none;align-items:center;justify-content:center;padding:16px;}
+.ov.on{display:flex;}
+.modal{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:420px;}
+.modal h2{font-size:19px;margin-bottom:4px;}
+.modal p{color:var(--muted);font-size:14px;margin-bottom:16px;}
+.qte{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:20px;}
+.qte button{width:64px;height:64px;border-radius:14px;border:1px solid var(--bord);background:#fff;font-size:30px;font-weight:700;}
+.qte span{font-size:40px;font-weight:700;min-width:70px;text-align:center;}
+.row{display:flex;gap:10px;} .row .btn{flex:1;}
+.inv .art input{width:80px;height:48px;font-size:20px;text-align:center;border:1px solid var(--bord);border-radius:10px;font-family:inherit;}
+.ecart{font-size:13px;min-width:50px;text-align:right;color:var(--muted);}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--txt);color:#fff;padding:12px 20px;border-radius:10px;display:none;}
+.vue{display:none;} .vue.on{display:block;}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0;}
+.pad button{height:56px;font-size:22px;border:1px solid var(--bord);border-radius:10px;background:#fff;font-family:inherit;}
+.code{text-align:center;font-size:28px;letter-spacing:10px;height:36px;}
+.adm .art input{width:64px;height:44px;font-size:18px;text-align:center;border:1px solid var(--bord);border-radius:8px;font-family:inherit;}
+.lbl{font-size:12px;color:var(--muted);text-align:center;}
+</style>
+</head>
+<body>
+<div class="maq">MAQUETTE — données fictives, aucun enregistrement</div>
+<header><h1 id="titre">Stock petits consommables</h1><div class="conn"><i></i>En ligne</div></header>
+
+<!-- VUE STOCK -->
+<div class="vue on" id="vStock">
+  <div class="alerte" id="bandeau"></div>
+  <div class="actions">
+    <button class="btn btn-bleu" onclick="ouvrirInv()">Inventaire du lundi</button>
+    <button class="btn btn-gris" onclick="ouvrirCode()">Administration</button>
+  </div>
+  <div class="liste" id="liste"></div>
+</div>
+
+<!-- VUE INVENTAIRE -->
+<div class="vue inv" id="vInv">
+  <div class="actions"><button class="btn btn-gris" onclick="vue('vStock')">Annuler</button><button class="btn btn-bleu" onclick="validerInv()">Valider l'inventaire</button></div>
+  <div class="liste" id="listeInv"></div>
+</div>
+
+<!-- VUE ADMIN -->
+<div class="vue adm" id="vAdm">
+  <div class="actions"><button class="btn btn-gris" onclick="vue('vStock')">Retour</button><button class="btn btn-bleu" onclick="toast('Ajout d\'article (maquette)')">+ Ajouter un article</button></div>
+  <div class="liste" id="listeAdm"></div>
+</div>
+
+<!-- MODAL MOUVEMENT -->
+<div class="ov" id="ovMv"><div class="modal">
+  <h2 id="mvTitre"></h2><p id="mvSous"></p>
+  <div class="qte"><button onclick="q(-1)">−</button><span id="mvQ">1</span><button onclick="q(1)">+</button></div>
+  <div class="row"><button class="btn btn-gris" onclick="fermer('ovMv')">Annuler</button><button class="btn btn-bleu" id="mvOk" onclick="validerMv()">Valider</button></div>
+</div></div>
+
+<!-- MODAL CODE -->
+<div class="ov" id="ovCode"><div class="modal">
+  <h2>Code administration</h2><p>Maquette : n'importe quel code à 4 chiffres</p>
+  <div class="code" id="codeAff"></div>
+  <div class="pad" id="pad"></div>
+  <button class="btn btn-gris" style="width:100%" onclick="fermer('ovCode')">Annuler</button>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var arts = [
+ ["Gel hydroalcoolique",12,5],["Savon",8,4],["Gants jetables",3,5],["Masques",40,20],["Charlottes",25,10],
+ ["Poches poubelle",6,10],["Scotch",9,3],["Agrafeuses",4,2],["Agrafes",10,3],["Stylos",30,10],
+ ["Marqueurs",2,5],["Feuilles",15,5],["Balais",4,2],["Pelles",3,2],["Produit de nettoyage",7,3]
+].map(function(a,i){return {id:i,nom:a[0],stock:a[1],seuil:a[2]};});
+var cur=null, sens=1, qv=1, code="";
+
+function $(i){return document.getElementById(i);}
+function vue(v){var l=document.querySelectorAll('.vue');for(var i=0;i<l.length;i++)l[i].classList.remove('on');$(v).classList.add('on');
+  $('titre').textContent = v==='vInv'?'Inventaire du lundi':(v==='vAdm'?'Administration':'Stock petits consommables'); if(v==='vStock')rendre();}
+function fermer(o){$(o).classList.remove('on');}
+function toast(t){var e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e._t);e._t=setTimeout(function(){e.style.display='none';},2200);}
+
+function rendre(){
+  var h='', bas=0;
+  arts.forEach(function(a){var b=a.stock<a.seuil; if(b)bas++;
+    h+='<div class="art'+(b?' bas':'')+'"><div class="nom">'+a.nom+'<small>Seuil : '+a.seuil+(b?' — sous le seuil':'')+'</small></div>'+
+       '<div class="stk">'+a.stock+'</div>'+
+       '<button class="mv moins" onclick="mv('+a.id+',-1)">−</button><button class="mv plus" onclick="mv('+a.id+',1)">+</button></div>';});
+  $('liste').innerHTML=h;
+  var bd=$('bandeau'); if(bas){bd.style.display='block';bd.textContent=bas+' article(s) sous le seuil — mail envoyé à Myriam';} else bd.style.display='none';
+}
+function mv(id,s){cur=arts[id];sens=s;qv=1;$('mvTitre').textContent=(s<0?'Sortie : ':'Entrée : ')+cur.nom;
+  $('mvSous').textContent='Stock actuel : '+cur.stock;$('mvQ').textContent=qv;
+  $('mvOk').style.background=s<0?'#DC2626':'#16a34a';$('mvOk').textContent=s<0?'Valider la sortie':'Valider l\'entrée';$('ovMv').classList.add('on');}
+function q(d){qv=Math.max(1,qv+d);if(sens<0)qv=Math.min(qv,cur.stock||1);$('mvQ').textContent=qv;}
+function validerMv(){var avant=cur.stock;cur.stock=Math.max(0,cur.stock+sens*qv);fermer('ovMv');rendre();
+  if(avant>=cur.seuil&&cur.stock<cur.seuil)toast('Sous le seuil : alerte mail à Myriam');else toast((sens<0?'Sortie':'Entrée')+' enregistrée');}
+
+function ouvrirInv(){var h='';arts.forEach(function(a){h+='<div class="art"><div class="nom">'+a.nom+'<small>Théorique : '+a.stock+'</small></div><div class="ecart" id="e'+a.id+'"></div><input type="number" inputmode="numeric" id="i'+a.id+'" placeholder="'+a.stock+'" oninput="ec('+a.id+')"></div>';});
+  $('listeInv').innerHTML=h;vue('vInv');}
+function ec(id){var v=$('i'+id).value,e=$('e'+id);if(v===''){e.textContent='';return;}var d=Number(v)-arts[id].stock;e.textContent=(d>0?'+':'')+d;e.style.color=d<0?'#DC2626':(d>0?'#16a34a':'#6B7280');}
+function validerInv(){var n=0;arts.forEach(function(a){var v=$('i'+a.id).value;if(v!==''){a.stock=Number(v);n++;}});vue('vStock');toast('Inventaire validé ('+n+' corrigés) — récap envoyé à Myriam');}
+
+function ouvrirCode(){code='';$('codeAff').textContent='';var h='';['1','2','3','4','5','6','7','8','9','','0','⌫'].forEach(function(k){h+=k?'<button onclick="tap(\''+k+'\')">'+k+'</button>':'<span></span>';});$('pad').innerHTML=h;$('ovCode').classList.add('on');}
+function tap(k){if(k==='⌫')code=code.slice(0,-1);else if(code.length<4)code+=k;$('codeAff').textContent=new Array(code.length+1).join('•');
+  if(code.length===4){fermer('ovCode');ouvrirAdm();}}
+function ouvrirAdm(){var h='';arts.forEach(function(a){h+='<div class="art"><div class="nom">'+a.nom+'</div><div><div class="lbl">Seuil</div><input type="number" value="'+a.seuil+'" onchange="arts['+a.id+'].seuil=Number(this.value)||0"></div><button class="btn btn-gris" style="padding:10px;color:#DC2626" onclick="toast(\'Suppression avec confirmation (maquette)\')">Supprimer</button></div>';});
+  $('listeAdm').innerHTML=h;vue('vAdm');}
+rendre();
+</script>
+</body>
+</html>
