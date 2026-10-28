@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#1E5FAD">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Stock petits consommables — Maquette</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -154,6 +157,12 @@ header{background:var(--carte);padding:14px 16px 12px;border-bottom:1px solid va
 <div class="toast" id="toast"></div>
 
 <script>
+var APP_VERSION = "1"; /* aligné avec CACHE "stock-conso-v1" dans sw-stock.js */
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw-stock.js").catch(function(e){ console.error("SW", e); });
+  });
+}
 var arts = [
  ["Gel hydroalcoolique",12,5],["Savon",8,4],["Gants jetables",3,5],["Masques",40,20],["Charlottes",25,10],
  ["Poches poubelle",6,10],["Scotch",9,3],["Agrafeuses",4,2],["Agrafes",10,3],["Stylos",30,10],
